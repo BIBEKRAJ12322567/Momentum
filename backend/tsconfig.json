@@ -1,20 +1,48 @@
+// {
+//   "compilerOptions": {
+//     "target": "ES2022",
+//     "module": "commonjs",
+//     "lib": ["ES2022"],
+//     "outDir": "./dist",
+//     "rootDir": "./src",
+//     "strict": true,
+//     "esModuleInterop": true,
+//     "skipLibCheck": true,
+//     "forceConsistentCasingInFileNames": true,
+//     "resolveJsonModule": true,
+//     "declaration": true,
+//     "declarationMap": true,
+//     "sourceMap": true,
+//     "moduleResolution": "node"
+//   },
+//   "include": ["src/**/*"],
+//   "exclude": ["node_modules", "dist"]
+// }
+
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "commonjs",
+    "module": "CommonJS",
+
     "lib": ["ES2022"],
-    "outDir": "./dist",
+    "types": ["node"],
+
     "rootDir": "./src",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+
+    "moduleResolution": "node",
     "resolveJsonModule": true,
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "moduleResolution": "node"
+
+    "esModuleInterop": true,
+
+    "strict": false,
+    "skipLibCheck": true,
+
+    "forceConsistentCasingInFileNames": true,
+
+    "sourceMap": true
   },
+
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }
