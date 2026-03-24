@@ -1,5 +1,5 @@
 // Prisma Schema for Online Video Directory
-// Run: npx prisma migrate dev --name init
+// Run: npx prisma db push
 // Run: npx prisma generate
 
 generator client {
@@ -7,8 +7,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL") // Add your NeonDB connection string in .env
+  provider = "mongodb"
+  url      = env("DATABASE_URL") // Add your MongoDB connection string in .env
 }
 
 // ==========================================
@@ -33,7 +33,7 @@ enum VideoStatus {
 
 // User - Core authentication model
 model User {
-  id            String    @id @default(uuid())
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
   email         String    @unique
   password_hash String
   role          Role      @default(VIEWER)
@@ -55,8 +55,8 @@ model User {
 
 // Admin Profile
 model AdminProfile {
-  id           String   @id @default(uuid())
-  userId       String   @unique @map("user_id")
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId       String   @unique @db.ObjectId @map("user_id")
   full_name    String   // Validated: alphabets and spaces only
   employee_id  String?
   department   String?
@@ -72,8 +72,8 @@ model AdminProfile {
 
 // Creator Profile
 model CreatorProfile {
-  id            String   @id @default(uuid())
-  userId        String   @unique @map("user_id")
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String   @unique @db.ObjectId @map("user_id")
   full_name     String   // Validated: alphabets and spaces only
   channel_name  String   // Required: Channel name for creator branding
   bio           String?
@@ -94,8 +94,8 @@ model CreatorProfile {
 
 // Viewer Profile
 model ViewerProfile {
-  id              String   @id @default(uuid())
-  userId          String   @unique @map("user_id")
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId          String   @unique @db.ObjectId @map("user_id")
   full_name       String   // Validated: alphabets and spaces only
   display_name    String?
   country         String?
@@ -114,7 +114,7 @@ model ViewerProfile {
 
 // Video - Core video content
 model Video {
-  id            String      @id @default(uuid())
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
   title         String
   description   String?
   video_url     String      // Cloudinary URL
@@ -127,7 +127,7 @@ model Video {
   createdAt     DateTime    @default(now()) @map("created_at")
   updatedAt     DateTime    @updatedAt @map("updated_at")
 
-  uploaderId String @map("uploader_id")
+  uploaderId String @db.ObjectId @map("uploader_id")
   uploader   User   @relation(fields: [uploaderId], references: [id], onDelete: Cascade)
 
 
@@ -142,9 +142,9 @@ model Video {
 
 // Video Likes - Track which users liked which videos
 model VideoLike {
-  id        String   @id @default(uuid())
-  userId    String   @map("user_id")
-  videoId   String   @map("video_id")
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId @map("user_id")
+  videoId   String   @db.ObjectId @map("video_id")
   createdAt DateTime @default(now()) @map("created_at")
 
   user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -156,9 +156,9 @@ model VideoLike {
 
 // Video Saves - Track which users saved which videos
 model VideoSave {
-  id        String   @id @default(uuid())
-  userId    String   @map("user_id")
-  videoId   String   @map("video_id")
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId @map("user_id")
+  videoId   String   @db.ObjectId @map("video_id")
   createdAt DateTime @default(now()) @map("created_at")
 
   user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -170,9 +170,9 @@ model VideoSave {
 
 // Watch History - Track which users watched which videos
 model WatchHistory {
-  id         String   @id @default(uuid())
-  userId     String   @map("user_id")
-  videoId    String   @map("video_id")
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String   @db.ObjectId @map("user_id")
+  videoId    String   @db.ObjectId @map("video_id")
   watchedAt  DateTime @default(now()) @map("watched_at")
   progress   Float?   // Watch progress (0.0 to 1.0)
   completed  Boolean  @default(false) // Whether video was watched to completion

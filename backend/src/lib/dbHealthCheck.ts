@@ -13,7 +13,7 @@ export async function checkDatabaseConnection(): Promise<boolean> {
   }
 
   try {
-    await prisma.$queryRaw`SELECT 1`;
+    await prisma.$runCommandRaw({ ping: 1 });
     isDbConnected = true;
     lastCheckTime = now;
     return true;

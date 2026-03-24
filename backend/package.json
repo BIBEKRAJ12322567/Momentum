@@ -8,7 +8,7 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev",
+    "prisma:db:push": "prisma db push",
     "prisma:studio": "prisma studio",
     "seed:creators": "ts-node scripts/seed-creators.ts",
     "seed:viewers": "ts-node scripts/seed-viewers.ts",

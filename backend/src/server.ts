@@ -27,7 +27,14 @@ const app = express();
 // CORS configuration
 app.use(
   cors({
-    origin: config.FRONTEND_URL,
+    origin: function (origin, callback) {
+      // Allow localhost, local IPs, or exact match
+      if (!origin || origin === config.FRONTEND_URL || origin.includes("127.0.0.1") || origin.includes("localhost") || origin.includes("10.21.248.216") || origin.startsWith("http://192.168.") || origin.startsWith("http://10.")) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true, // Allow cookies
   })
 );
