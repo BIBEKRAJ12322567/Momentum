@@ -1,6 +1,6 @@
 import { User } from "@/lib/types";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3001/api";
+const API_BASE_URL = import.meta.env.VITE_API_URL || "https://momentum-mnr9.onrender.com/api";
 
 interface ApiResponse<T = any> {
   success: boolean;
